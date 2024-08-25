@@ -1,0 +1,26 @@
+```
+-- SQLite database for storing video chat room data
+
+-- Create Rooms table
+CREATE TABLE Rooms (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  description TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create Index on Rooms table
+CREATE INDEX idx_Rooms_name ON Rooms (name);
+
+-- Create Triggers for Rooms table
+CREATE TRIGGER trg_Rooms_updated_at
+AFTER UPDATE ON Rooms
+FOR EACH ROW
+BEGIN
+    UPDATE Rooms SET updated_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
+END;
+
+-- Initialize database with initial data
+INSERT INTO Rooms (name, description) VALUES ('default', 'Default room');
+```
